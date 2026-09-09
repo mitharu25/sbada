@@ -33,4 +33,20 @@ class User extends Authenticatable implements PasskeyUser
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    public function company()
+    {
+        return $this->belongsTo(
+            InfoCompany::class,
+            'company_id'
+        );
+    }
+
+    protected $fillable = [
+        'name',
+        'phone_number',
+        'company_id',
+        'email',
+        'password',
+    ];
 }

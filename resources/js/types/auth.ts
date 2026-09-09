@@ -1,3 +1,5 @@
+import { PageProps as InertiaPageProps } from '@inertiajs/core';
+
 export type User = {
     id: number;
     name: string;
@@ -32,3 +34,17 @@ export type TwoFactorSetupData = {
 export type TwoFactorSecretKey = {
     secretKey: string;
 };
+
+export interface AuthUser {
+    id: number;
+    name: string;
+    email: string;
+    phone_number: string;
+    name_company: string;
+}
+
+export interface PageProps extends InertiaPageProps {
+    auth: {
+        user: AuthUser;
+    };
+}

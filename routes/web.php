@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'homeDashboard')->name('home');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
-});
-
 require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
+
+// Login Route
+Route::inertia('/login', 'login/loginPage')->name('login');
+
+// protected routes
+Route::middleware(['auth'])->group(function () {
+    Route::inertia('/', 'homeDashboard')->name('homeDashboard');
+});
