@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
+import type { PageProps } from '@/types';
 import {
     LayoutDashboard,
     TrendingUp,
@@ -115,6 +116,8 @@ export default function AppLayout({
 }: {
     children?: React.ReactNode;
 }) {
+    const { auth } = usePage<PageProps>().props;
+
     const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
         Analytics: false,
     });
@@ -305,8 +308,10 @@ export default function AppLayout({
                         <h1 className="text-[15px] font-semibold text-neutral-900">
                             Smart Business Analytics Dashboard Automation
                         </h1>
-                        <p className="text-xs text-neutral-400">
-                            Welcome back! Here's what's happening.
+                        <p className="text-xs text-neutral-800">
+                            Welcome back <b>{auth.user.nickname}</b>, Here's
+                            what's happening in{' '}
+                            <b>{auth.user.business_company}</b>!
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -314,8 +319,12 @@ export default function AppLayout({
                             <Bell size={17} />
                             <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500" />
                         </button>
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-900 text-xs font-semibold text-white">
-                            JD
+                        <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-neutral-900 text-xs font-semibold text-white">
+                            <img
+                                src={`/storage/image_profile/${auth.user.photo}`}
+                                alt="Profile"
+                                className="h-full w-full object-cover"
+                            />
                         </div>
                     </div>
                 </header>

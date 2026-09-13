@@ -21,10 +21,8 @@ import { Head, router } from '@inertiajs/react';
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [address, setAddress] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [businessCompany, setBusinessCompany] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSignIn = async (e: React.FormEvent) => {
@@ -40,7 +38,7 @@ export default function LoginPage() {
             },
             {
                 onSuccess: () => {
-                    toast.success('Welcome back!');
+                    toast.success('Login Successful!');
                 },
 
                 onError: () => {
@@ -62,22 +60,27 @@ export default function LoginPage() {
         router.post(
             '/register',
             {
-                name: fullName,
-                name_company: companyName,
-                phone_number: phoneNumber,
+                nickname: nickname,
+                business_company: businessCompany,
                 email,
                 password,
-                address,
             },
             {
                 onSuccess: () => {
-                    toast.success('Account created successfully!');
+                    setNickname('');
+                    setBusinessCompany('');
+                    setEmail('');
+                    setPassword('');
+                    toast.success(
+                        'Account created successfully!, please login to continue',
+                    );
                 },
 
                 onError: (errors) => {
                     console.log(errors);
-
-                    toast.error('Failed to create account');
+                    toast.error(
+                        'Failed to create account or try to different email address',
+                    );
                 },
 
                 onFinish: () => {
@@ -117,6 +120,7 @@ export default function LoginPage() {
                             </TabsList>
                         </CardHeader>
 
+                        {/* Sign In */}
                         <TabsContent value="signin">
                             <form onSubmit={handleSignIn}>
                                 <CardContent className="space-y-4 pt-6">
@@ -172,68 +176,39 @@ export default function LoginPage() {
                             </form>
                         </TabsContent>
 
+                        {/* Create Account */}
                         <TabsContent value="signup">
                             <form onSubmit={handleSignUp}>
                                 <CardContent className="space-y-4 pt-6">
                                     <div className="space-y-2">
-                                        <Label htmlFor="fullname">
-                                            Full Name
+                                        <Label htmlFor="Nickname">
+                                            Nickname
                                         </Label>
                                         <Input
-                                            id="name"
+                                            id="Nickname"
                                             type="text"
                                             placeholder="John Doe"
-                                            value={fullName}
+                                            value={nickname}
                                             onChange={(e) =>
-                                                setFullName(e.target.value)
+                                                setNickname(e.target.value)
                                             }
                                             required
                                             className="h-11"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="Company Name">
-                                            Company Name
+                                        <Label htmlFor="Business Company Name">
+                                            Business Company Name
                                         </Label>
                                         <Input
-                                            id="name_company"
+                                            id="business_company"
                                             type="text"
-                                            placeholder="Bakery John"
-                                            value={companyName}
+                                            placeholder="Shopify John"
+                                            value={businessCompany}
                                             onChange={(e) =>
-                                                setCompanyName(e.target.value)
-                                            }
-                                            required
-                                            className="h-11"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="Address Company">
-                                            Address Company
-                                        </Label>
-                                        <Input
-                                            id="address_company"
-                                            type="text"
-                                            placeholder="123 Bakery Street"
-                                            value={address}
-                                            onChange={(e) =>
-                                                setAddress(e.target.value)
-                                            }
-                                            required
-                                            className="h-11"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="Phone Number">
-                                            Phone Number
-                                        </Label>
-                                        <Input
-                                            id="phone_number"
-                                            type="text"
-                                            placeholder="08..."
-                                            value={phoneNumber}
-                                            onChange={(e) =>
-                                                setPhoneNumber(e.target.value)
+                                                setBusinessCompany(
+                                                    e.target.value,
+                                                )
                                             }
                                             required
                                             className="h-11"
@@ -246,7 +221,7 @@ export default function LoginPage() {
                                         <Input
                                             id="email"
                                             type="email"
-                                            placeholder="you@email.com"
+                                            placeholder="your@email.com"
                                             value={email}
                                             onChange={(e) =>
                                                 setEmail(e.target.value)
@@ -298,7 +273,7 @@ export default function LoginPage() {
                 </Card>
 
                 <p className="text-center text-sm text-gray-500">
-                    Demo credentials: admin@gmail.com / 123
+                    Demo credentials: tester@gmail.com / 123
                 </p>
             </div>
         </div>

@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends Factory<User>
+ * @extends Factory<Product>
  */
-class UserFactory extends Factory
+class ProductFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -24,11 +24,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'nickname' => fake()->userName(),
-            'business_company' => fake()->company(),
-            'photo' => "default.png",
-            'email' => fake()->unique()->safeEmail(),
-            'password' => Hash::make('password'),
+            'id_user' => User::factory(),
+            'name_product' => fake()->words(2, true),
+            'category_product' => fake()->randomElement([
+                'Electronics',
+                'Food',
+                'Fashion',
+                'Accessories',
+                'Sports',
+                'Home',
+                'Toys',
+                'Books',
+                'Health',
+                'Beauty',
+            ]),
+            'price_product' => fake()->numberBetween(1, 9000),
         ];
     }
 

@@ -13,11 +13,16 @@ export default function HomeDashboard() {
 
                 <div className="mt-6 rounded border p-4">
                     <p>
-                        <strong>ID:</strong> {auth.user.id}
+                        <strong>ID:</strong> {auth.user.id_user}
                     </p>
 
                     <p>
-                        <strong>Name:</strong> {auth.user.name}
+                        <strong>Name:</strong> {auth.user.nickname}
+                    </p>
+
+                    <p>
+                        <strong>Business Company:</strong>{' '}
+                        {auth.user.business_company}
                     </p>
 
                     <p>
@@ -25,11 +30,7 @@ export default function HomeDashboard() {
                     </p>
 
                     <p>
-                        <strong>Company:</strong> {auth.user.name_company}
-                    </p>
-
-                    <p>
-                        <strong>Phone:</strong> {auth.user.phone_number}
+                        <strong>Photo:</strong> {auth.user.photo}
                     </p>
                 </div>
             </div>
