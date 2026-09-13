@@ -1,6 +1,5 @@
 import { usePage } from '@inertiajs/react';
 import type { PageProps } from '@/types';
-import { router } from '@inertiajs/react';
 import Sidebar from '@/components/layout/DashboardLayout';
 
 export default function HomeDashboard() {
