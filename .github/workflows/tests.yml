@@ -54,6 +54,14 @@ jobs:
       - name: Generate Wayfinder
         run: php artisan wayfinder:generate
 
+      - name: Check Wayfinder files
+        run: |
+        ls -la resources/js/routes
+        echo "Login:"
+        ls -la resources/js/routes/login*
+        echo "Register:"
+        ls -la resources/js/routes/register*
+
       - name: Build Assets
         run: npm run build
 
