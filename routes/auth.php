@@ -25,7 +25,7 @@ Route::post('/login', function (Request $request) {
     return back()->withErrors([
         'email' => 'Email atau password salah.',
     ]);
-})->name('auth.login');
+})->name('login');
 
 Route::post('/logout', function (Request $request) {
 
@@ -38,7 +38,8 @@ Route::post('/logout', function (Request $request) {
     return redirect('/login');
 })->name('logout');
 
-Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store'])
+    ->name('register');
 
 // Route::post('/register', function (Request $request) {
 
