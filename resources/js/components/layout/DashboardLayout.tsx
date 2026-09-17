@@ -311,7 +311,7 @@ export default function AppLayout({
                         <p className="text-xs text-neutral-800">
                             Welcome back <b>{auth.user.nickname}</b>, Here's
                             what's happening in{' '}
-                            <b>{auth.user.business_company}</b>!
+                            <b>{auth.user.business_company}!</b>
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
