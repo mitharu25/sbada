@@ -47,4 +47,11 @@ export interface PageProps extends InertiaPageProps {
     auth: {
         user: AuthUser;
     };
+
+    dashboardData: {
+        total_revenue: number;
+        total_sales: number;
+        total_orders: number;
+        average_sales: number;
+    }
 }

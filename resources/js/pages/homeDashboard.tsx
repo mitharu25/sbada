@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 export default function HomeDashboard() {
-    const { auth } = usePage<PageProps>().props;
+    const { dashboardData } = usePage<PageProps>().props;
 
     return (
         <Sidebar>
@@ -26,7 +26,7 @@ export default function HomeDashboard() {
                                 </p>
 
                                 <h2 className="mt-3 text-[30px] leading-none font-semibold text-neutral-950">
-                                    $780
+                                    ${Number(dashboardData.total_revenue)}
                                 </h2>
                             </div>
 
@@ -61,7 +61,7 @@ export default function HomeDashboard() {
                                 </p>
 
                                 <h2 className="mt-3 text-[30px] leading-none font-semibold text-neutral-950">
-                                    120
+                                    {dashboardData.total_orders}
                                 </h2>
                             </div>
 
@@ -96,7 +96,7 @@ export default function HomeDashboard() {
                                 </p>
 
                                 <h2 className="mt-3 text-[30px] leading-none font-semibold text-neutral-950">
-                                    370
+                                    {dashboardData.total_sales}
                                 </h2>
                             </div>
 
@@ -131,7 +131,7 @@ export default function HomeDashboard() {
                                 </p>
 
                                 <h2 className="mt-3 text-[30px] leading-none font-semibold text-neutral-950">
-                                    $33.37
+                                    ${Number(dashboardData.average_sales)}
                                 </h2>
                             </div>
 

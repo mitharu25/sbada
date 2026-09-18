@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeDashboardController;
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
@@ -10,5 +11,6 @@ Route::inertia('/login', 'login/loginPage')->name('login');
 
 // protected routes
 Route::middleware(['auth'])->group(function () {
-    Route::inertia('/', 'homeDashboard')->name('homeDashboard');
+    Route::get('/', [HomeDashboardController::class, 'index'])
+        ->name('homeDashboard');
 });
