@@ -54,4 +54,9 @@ export interface PageProps extends InertiaPageProps {
         total_orders: number;
         average_sales: number;
     }
+
+    revenueChange: number;
+    salesChange: number;
+    itemsSoldChange: number;
+    averageSalesChange: number;
 }

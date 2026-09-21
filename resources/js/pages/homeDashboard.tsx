@@ -7,10 +7,50 @@ import {
     ShoppingBag,
     TrendingUp,
     BadgeDollarSign,
+    TrendingDown,
+    Minus,
 } from 'lucide-react';
 
 export default function HomeDashboard() {
-    const { dashboardData } = usePage<PageProps>().props;
+    // Destructure the props from the Inertia page
+    const {
+        dashboardData,
+        revenueChange,
+        salesChange,
+        itemsSoldChange,
+        averageSalesChange,
+    } = usePage<PageProps>().props;
+
+    // Function to determine the trend icon and color based on the value
+    const getTrend = (value: number) => {
+        if (value > 0) {
+            return {
+                icon: TrendingUp,
+                color: 'text-green-600',
+            };
+        }
+
+        if (value < 0) {
+            return {
+                icon: TrendingDown,
+                color: 'text-red-600',
+            };
+        }
+
+        return {
+            icon: Minus,
+            color: 'text-neutral-500',
+        };
+    };
+
+    const revenueTrend = getTrend(Number(revenueChange));
+    const RevenueIcon = revenueTrend.icon;
+    const salesTrend = getTrend(Number(salesChange));
+    const SalesIcon = salesTrend.icon;
+    const itemsSoldTrend = getTrend(Number(itemsSoldChange));
+    const ItemsSoldIcon = itemsSoldTrend.icon;
+    const averageSalesTrend = getTrend(Number(averageSalesChange));
+    const AverageSalesIcon = averageSalesTrend.icon;
 
     return (
         <Sidebar>
@@ -26,7 +66,10 @@ export default function HomeDashboard() {
                                 </p>
 
                                 <h2 className="mt-3 text-[30px] leading-none font-semibold text-neutral-950">
-                                    ${Number(dashboardData.total_revenue)}
+                                    $
+                                    {Number(
+                                        dashboardData.total_revenue,
+                                    ).toFixed(2)}
                                 </h2>
                             </div>
 
@@ -40,12 +83,14 @@ export default function HomeDashboard() {
                         </div>
 
                         <div className="mt-6 flex items-center gap-1 text-[16px]">
-                            <TrendingUp
+                            <RevenueIcon
                                 size={19}
                                 strokeWidth={2}
-                                className="text-green-600"
+                                className={revenueTrend.color}
                             />
-                            <span className="text-green-600">15.2%</span>
+                            <span className={revenueTrend.color}>
+                                {Number(revenueChange).toFixed(1)}%
+                            </span>
                             <span className="text-neutral-500">
                                 vs last month
                             </span>
@@ -75,12 +120,14 @@ export default function HomeDashboard() {
                         </div>
 
                         <div className="mt-6 flex items-center gap-1 text-[16px]">
-                            <TrendingUp
+                            <SalesIcon
                                 size={19}
                                 strokeWidth={2}
-                                className="text-green-600"
+                                className={salesTrend.color}
                             />
-                            <span className="text-green-600">10.8%</span>
+                            <span className={salesTrend.color}>
+                                {Number(salesChange).toFixed(1)}%
+                            </span>
                             <span className="text-neutral-500">
                                 vs last month
                             </span>
@@ -110,12 +157,14 @@ export default function HomeDashboard() {
                         </div>
 
                         <div className="mt-6 flex items-center gap-1 text-[16px]">
-                            <TrendingUp
+                            <ItemsSoldIcon
                                 size={19}
                                 strokeWidth={2}
-                                className="text-green-600"
+                                className={itemsSoldTrend.color}
                             />
-                            <span className="text-green-600">17.5%</span>
+                            <span className={itemsSoldTrend.color}>
+                                {Number(itemsSoldChange).toFixed(1)}%
+                            </span>
                             <span className="text-neutral-500">
                                 vs last month
                             </span>
@@ -131,7 +180,10 @@ export default function HomeDashboard() {
                                 </p>
 
                                 <h2 className="mt-3 text-[30px] leading-none font-semibold text-neutral-950">
-                                    ${Number(dashboardData.average_sales)}
+                                    $
+                                    {Number(
+                                        dashboardData.average_sales,
+                                    ).toFixed(2)}
                                 </h2>
                             </div>
 
@@ -145,12 +197,14 @@ export default function HomeDashboard() {
                         </div>
 
                         <div className="mt-6 flex items-center gap-1 text-[16px]">
-                            <TrendingUp
+                            <AverageSalesIcon
                                 size={19}
                                 strokeWidth={2}
-                                className="text-green-600"
+                                className={averageSalesTrend.color}
                             />
-                            <span className="text-green-600">8.5%</span>
+                            <span className={averageSalesTrend.color}>
+                                {Number(averageSalesChange).toFixed(1)}%
+                            </span>
                             <span className="text-neutral-500">
                                 vs last month
                             </span>

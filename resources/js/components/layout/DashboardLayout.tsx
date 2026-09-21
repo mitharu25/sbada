@@ -71,7 +71,7 @@ const navItems: NavItem[] = [
                 href: '/forecasting/product-cluster',
             },
             {
-                label: 'AI Model Monitoring',
+                label: 'AI Model Monitoring & Control',
                 icon: <BrainCircuit size={16} />,
                 href: '/forecasting/ai-monitoring',
             },
