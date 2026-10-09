@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { router, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import type { PageProps } from '@/types';
 import {
     LayoutDashboard,
@@ -33,7 +33,7 @@ const navItems: NavItem[] = [
     {
         label: 'Dashboard',
         icon: <LayoutDashboard size={18} />,
-        href: '/dashboard',
+        href: '/',
     },
     {
         label: 'Analytics',
@@ -47,7 +47,7 @@ const navItems: NavItem[] = [
             {
                 label: 'Product Analytics',
                 icon: <Package size={16} />,
-                href: '/analytics/products',
+                href: '/analytics/product',
             },
         ],
     },
@@ -117,12 +117,20 @@ export default function AppLayout({
     children?: React.ReactNode;
 }) {
     const { auth } = usePage<PageProps>().props;
+    const { url } = usePage();
 
-    const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
-        Analytics: false,
+    const [openMenus, setOpenMenus] = useState<Record<string, boolean>>(() => {
+        const initial: Record<string, boolean> = {};
+        navItems.forEach((item) => {
+            if (item.children?.some((c) => url.split('?')[0] === c.href)) {
+                initial[item.label] = true;
+            }
+        });
+        return initial;
     });
     const [collapsed, setCollapsed] = useState(false);
-    const [activeHref, setActiveHref] = useState('/dashboard');
+    // const [activeHref, setActiveHref] = useState('/dashboard');
+    const activeHref = url;
 
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -194,13 +202,9 @@ export default function AppLayout({
                         if (!isGroup) {
                             const isActive = activeHref === item.href;
                             return (
-                                <a
+                                <Link
                                     key={item.label}
                                     href={item.href}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setActiveHref(item.href!);
-                                    }}
                                     className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
                                         isActive
                                             ? 'bg-neutral-900 text-white'
@@ -216,7 +220,7 @@ export default function AppLayout({
                                             {item.label}
                                         </span>
                                     )}
-                                </a>
+                                </Link>
                             );
                         }
 
@@ -253,15 +257,14 @@ export default function AppLayout({
                                             const isActive =
                                                 activeHref === child.href;
                                             return (
-                                                <a
+                                                <Link
                                                     key={child.label}
                                                     href={child.href}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setActiveHref(
-                                                            child.href,
-                                                        );
-                                                    }}
+                                                    className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
+                                                        isActive
+                                                            ? 'bg-neutral-900 text-white'
+                                                            : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
+                                                    }`}
                                                     className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
                                                         isActive
                                                             ? 'bg-neutral-900 text-white'
@@ -272,7 +275,7 @@ export default function AppLayout({
                                                         {child.icon}
                                                     </span>
                                                     <span>{child.label}</span>
-                                                </a>
+                                                </Link>
                                             );
                                         })}
                                     </div>
