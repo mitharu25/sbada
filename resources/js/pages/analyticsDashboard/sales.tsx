@@ -1,123 +1,43 @@
 import Sidebar from '@/components/layout/DashboardLayout';
-import { router } from '@inertiajs/react';
-import {
-    CartesianGrid,
-    Line,
-    LineChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from 'recharts';
-
-interface SalesPerDay {
-    date: string; // "2026-10-09"
-    total: number;
-}
+import SalesPerDayChart, {
+    type SalesPerDay,
+} from './salesDashboard/SalesPerCountDayChart';
+import SalesCards from './salesDashboard/salesCards';
 
 interface Props {
     salesPerDay: SalesPerDay[];
-    availableMonths: string[]; // ["2026-10", "2026-09", ...]
+    availableMonths: string[];
     selectedMonth: string;
+    totalAmount: number;
 }
-
-const formatMonth = (ym: string) =>
-    new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
-        new Date(`${ym}-01`),
-    );
 
 export default function Sales({
     salesPerDay,
     availableMonths,
     selectedMonth,
+    totalAmount,
 }: Props) {
-    // Pastikan bulan terpilih tetap muncul di dropdown walau belum ada datanya
-    const months = availableMonths.includes(selectedMonth)
-        ? availableMonths
-        : [selectedMonth, ...availableMonths];
-
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        router.get(
-            '/analytics/sales',
-            { month: e.target.value },
-            { preserveState: true, preserveScroll: true, replace: true },
-        );
-    };
-
     return (
         <Sidebar>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-                {/* Kiri: 75% */}
-                <div className="rounded-2xl border border-neutral-100 bg-white p-3 shadow-sm lg:col-span-3">
-                    <div className="mb-4 flex items-center justify-between">
-                        <h1 className="text-2xl font-semibold">
-                            Sales Count Per Day - {formatMonth(selectedMonth)}
-                        </h1>
-
-                        <select
-                            value={selectedMonth}
-                            onChange={handleChange}
-                            className="rounded-md border-2 border-neutral-300 px-3 py-2"
-                        >
-                            {months.map((m) => (
-                                <option key={m} value={m}>
-                                    {formatMonth(m)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div style={{ width: '100%', height: 400 }}>
-                        <ResponsiveContainer>
-                            <LineChart
-                                data={salesPerDay}
-                                margin={{
-                                    top: 10,
-                                    right: 20,
-                                    left: 10,
-                                    bottom: 20,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis
-                                    dataKey="date"
-                                    tickFormatter={(d: string) => d.slice(8)}
-                                    label={{
-                                        value: 'Date (Day of Month)',
-                                        position: 'insideBottom',
-                                        offset: -10,
-                                        fill: '#000',
-                                    }}
-                                />
-                                <YAxis
-                                    allowDecimals={false}
-                                    label={{
-                                        value: 'Amount',
-                                        angle: -90,
-                                        position: 'insideLeft',
-                                        fill: '#000',
-                                    }}
-                                />
-                                <Tooltip
-                                    labelFormatter={(d: string) => `${d}`}
-                                />
-                                <Line
-                                    type="monotone"
-                                    dataKey="total"
-                                    name="Total Sales"
-                                    stroke="#2563eb"
-                                    strokeWidth={2}
-                                    dot={{ r: 3 }}
-                                />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </div>
+            {/* KPI cards */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                <SalesCards totalAmount={totalAmount} />
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="lg:col-span-1">
+                    <h1 className="text-2xl font-semibold">Table</h1>
                 </div>
-
-                {/* Kanan: 25%, dikosongkan dulu */}
-                <div className="rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm lg:col-span-1">
-                    {/* kosong */}
+                <div className="lg:col-span-1">
+                    <h1 className="text-2xl font-semibold">Round Chart</h1>
                 </div>
+            </div>
+            {/* Sales Count Per Day Graph */}
+            <div className="grid grid-cols-1 gap-4">
+                <SalesPerDayChart
+                    salesPerDay={salesPerDay}
+                    availableMonths={availableMonths}
+                    selectedMonth={selectedMonth}
+                />
             </div>
         </Sidebar>
     );
